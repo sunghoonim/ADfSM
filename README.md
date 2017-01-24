@@ -1,17 +1,21 @@
 # ADfSM
+(ADfSM: All-around Depth from Small Motion)
 
 Source code and datasets for the paper:
 
-S. Im, H. Ha, Francois Rameau, H.-G. Jeon, Gyeongmin Choe and I.S. Kweon, [All-around Depth from Small Motion with A Spherical Panoramic Camera](https://drive.google.com/file/d/0BzgPRA7JXoFiMjh1VE8wcDU4ZjA/view) - [ECCV 2016](http://www.eccv2016.org/)
+S. Im, H. Ha, Francois Rameau, H.-G. Jeon, Gyeongmin Choe and I.S. Kweon
+_S. Im, H. Ha, F. Rameau, H.-G. Jeon G. Choe and I.S. Kweon_, [**All-around Depth from Small Motion with A Spherical Panoramic Camera**](https://drive.google.com/file/d/0BzgPRA7JXoFiMjh1VE8wcDU4ZjA/view) - [**ECCV 2016**](http://www.eccv2016.org/)
 
-* [Project page](https://sites.google.com/site/shimrcv/imeccv16)
+- [**Project page**](https://sites.google.com/site/shimrcv/imeccv16)
 
 ## Dependency
-* [Opencv](http://opencv.org/)
-* [Ceres](http://ceres-solver.org/)
+- [**OpenCV**](http://opencv.org)
+- [**Ceres solver**](http://ceres-solver.org)
 
 ## How to run
+* Download opencv and put "opencv_world310.dll" file on the parent folder
 * run main.m
+
 
 **Important Information**
 
@@ -34,7 +38,7 @@ For the depth refinement, we utilized a tree-based depth upsampling approach [1,
 * [Gyeonmin Choe](http://rcv.kaist.ac.kr/gmchoe/)
 * [In So Kweon](http://rcv.kaist.ac.kr/)
 
-© 2017 Sunghoon Im, Korea Advanced Institute of Science and Technology (KAIST)
+&copy; 2017 Sunghoon Im, Korea Advanced Institute of Science and Technology (KAIST)
 
 **IMPORTANT**: If you use this software please cite the following in any resulting publication:
 
@@ -51,6 +55,6 @@ For the depth refinement, we utilized a tree-based depth upsampling approach [1,
 
 ## References
 
-[1] Yang, Qingxiong. "Stereo matching using tree filtering." IEEE transactions on pattern analysis and machine intelligence 37.4 (2015): 834-846.
+1. Yang, Qingxiong. "Stereo matching using tree filtering." IEEE transactions on pattern analysis and machine intelligence 37.4 (2015): 834-846.
+2. Yang, Qingxiong. "A non-local cost aggregation method for stereo matching." Computer Vision and Pattern Recognition (CVPR), 2012 IEEE Conference on. IEEE, 2012.
 
-[2] Yang, Qingxiong. "A non-local cost aggregation method for stereo matching." Computer Vision and Pattern Recognition (CVPR), 2012 IEEE Conference on. IEEE, 2012.
