@@ -13,15 +13,15 @@ S. Im, H. Ha, Francois Rameau, H.-G. Jeon, Gyeongmin Choe and I.S. Kweon, [All-a
 ## How to run
 * run main.m
 
-## Important Information
+**Important Information**
 
 Frame selection
 
-The current implementation uses only the first 30 frames of your video clip. If you want to try with a different number of images or different sampling rate, please change 'sam_rate'.
+The current implementation uses only the first 30 frames of your video clip. If you want to try with a different number of images or different sampling rate, please change 'setting.sam_rate'.
 
 Dense matching step
 
-We implemented the function "DenseMatching" to receive a scale for image downsampling and the number of labels for your convenience in testing. (Default: 0.5 scale and 64 labels for quick tests, you can change them ('scaling, 'num_label')
+We implemented the function "DenseMatching" to receive a scale for image downsampling and the number of labels for your convenience in testing. (Default: 0.5 scale and 64 labels for quick tests, you can change them ('setting.scaling, 'setting.num_label')
 
 For the depth refinement, we utilized a tree-based depth upsampling approach [1,2].
 
@@ -36,7 +36,7 @@ For the depth refinement, we utilized a tree-based depth upsampling approach [1,
 
 © 2017 Sunghoon Im, Korea Advanced Institute of Science and Technology (KAIST)
 
-IMPORTANT: If you use this software please cite the following in any resulting publication:
+**IMPORTANT**: If you use this software please cite the following in any resulting publication:
 
 ~~~~
 @inproceedings{im2016all,
