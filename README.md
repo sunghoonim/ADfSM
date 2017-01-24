@@ -7,8 +7,8 @@ S. Im, H. Ha, Francois Rameau, H.-G. Jeon, Gyeongmin Choe and I.S. Kweon, [All-a
 * [Project page](https://sites.google.com/site/shimrcv/imeccv16)
 
 ## Dependency
-* Opencv
-* Ceres
+* [Opencv](http://opencv.org/)
+* [Ceres](http://ceres-solver.org/)
 
 ## How to run
 * run main.m
@@ -33,17 +33,25 @@ For the depth refinement, we utilized a tree-based depth upsampling approach [1,
 * [Hae-Gon Jeon](https://sites.google.com/site/hgjeoncv/)
 * [Gyeonmin Choe](http://rcv.kaist.ac.kr/gmchoe/)
 * [In So Kweon](http://rcv.kaist.ac.kr/)
+
 © 2017 Sunghoon Im, Korea Advanced Institute of Science and Technology (KAIST)
 
 IMPORTANT: If you use this software please cite the following in any resulting publication:
 
 @inproceedings{im2016all,
+
   title={All-Around Depth from Small Motion with a Spherical Panoramic Camera},
+  
   author={Im, Sunghoon and Ha, Hyowon and Rameau, Fran{\c{c}}ois and Jeon, Hae-Gon and Choe, Gyeongmin and Kweon, In So},
+  
   booktitle={European Conference on Computer Vision},
+  
   pages={156--172},
+  
   year={2016},
+  
   organization={Springer}
+  
 }
 
 ## References
