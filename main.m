@@ -18,9 +18,9 @@ setting.num_label = 64; % The number of labels
 setting.sam_rate = 3; % sampling rate
 
 flist=dir(fullfile(setting.dataset_root,['*.' setting.video_format]));
-for i=3:length(flist)
+for i=1:length(flist)
     setting.dataset_name=flist(i).name(1:end-4);
     A = ADfSM(setting);
-%     A.SMBA360();
+    A.SMBA360();
     A.SphereSweep360();
 end
