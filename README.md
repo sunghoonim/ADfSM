@@ -38,6 +38,7 @@ For the depth refinement, we utilized a tree-based depth upsampling approach [1,
 
 IMPORTANT: If you use this software please cite the following in any resulting publication:
 
+“`
 @inproceedings{im2016all,
 
   title={All-Around Depth from Small Motion with a Spherical Panoramic Camera},
@@ -53,7 +54,7 @@ IMPORTANT: If you use this software please cite the following in any resulting p
   organization={Springer}
   
 }
-
+“`
 ## References
 
 Yang, Qingxiong. "Stereo matching using tree filtering." IEEE transactions on pattern analysis and machine intelligence 37.4 (2015): 834-846.
