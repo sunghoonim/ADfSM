@@ -3,7 +3,8 @@
 
 Source code and datasets for the paper:
 
-_S. Im, H. Ha, F. Rameau, H.-G. Jeon, G. Choe and I.S. Kweon_, [**All-around Depth from Small Motion with A Spherical Panoramic Camera**](https://drive.google.com/file/d/0BzgPRA7JXoFiMjh1VE8wcDU4ZjA/view) - [**ECCV 2016**](http://www.eccv2016.org/)
+_S. Im, H. Ha, F. Rameau, H.-G. Jeon, G. Choe and I.S. Kweon_, 
+[**All-around Depth from Small Motion with A Spherical Panoramic Camera**](https://drive.google.com/file/d/0BzgPRA7JXoFiMjh1VE8wcDU4ZjA/view) - [**ECCV 2016**](http://www.eccv2016.org/)
 
 - [**Project page**](https://sites.google.com/site/shimrcv/imeccv16)
 
