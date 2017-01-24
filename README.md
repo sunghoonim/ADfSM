@@ -23,7 +23,7 @@ Dense matching step
 
 We implemented the function "DenseMatching" to receive a scale for image downsampling and the number of labels for your convenience in testing. (Default: 0.5 scale and 64 labels for quick tests, you can change them ('scaling, 'num_label')
 
-For the depth refinement, we utilized a tree-based depth upsampling approach [1,2].
+> For the depth refinement, we utilized a tree-based depth upsampling approach .
 
 ## Authors
 
@@ -38,24 +38,18 @@ For the depth refinement, we utilized a tree-based depth upsampling approach [1,
 
 IMPORTANT: If you use this software please cite the following in any resulting publication:
 
-“`
+~~~~
 @inproceedings{im2016all,
-
   title={All-Around Depth from Small Motion with a Spherical Panoramic Camera},
-  
   author={Im, Sunghoon and Ha, Hyowon and Rameau, Fran{\c{c}}ois and Jeon, Hae-Gon and Choe, Gyeongmin and Kweon, In So},
-  
   booktitle={European Conference on Computer Vision},
-  
   pages={156--172},
-  
   year={2016},
-  
   organization={Springer}
-  
 }
-“`
+~~~~
+
 ## References
 
-Yang, Qingxiong. "Stereo matching using tree filtering." IEEE transactions on pattern analysis and machine intelligence 37.4 (2015): 834-846.
-Yang, Qingxiong. "A non-local cost aggregation method for stereo matching." Computer Vision and Pattern Recognition (CVPR), 2012 IEEE Conference on. IEEE, 2012.
+> * Yang, Qingxiong. "Stereo matching using tree filtering." IEEE transactions on pattern analysis and machine intelligence 37.4 (2015): 834-846.
+> * Yang, Qingxiong. "A non-local cost aggregation method for stereo matching." Computer Vision and Pattern Recognition (CVPR), 2012 IEEE Conference on. IEEE, 2012.
