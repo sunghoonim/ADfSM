@@ -27,12 +27,12 @@ For the depth refinement, we utilized a tree-based depth upsampling approach [1,
 
 ## Authors
 
-Sunghoon Im
-Hyowon Ha
-Francois Rameau
-Hae-Gon Jeon
-Gyeonmin Choe
-In So Kweon
+* [Sunghoon Im](https://sites.google.com/site/shimrcv/)
+* [Hyowon Ha](https://sites.google.com/site/hyowoncv/)
+* [Francois Rameau](https://www.researchgate.net/profile/Francois_Rameau)
+* [Hae-Gon Jeon](https://sites.google.com/site/hgjeoncv/)
+* [Gyeonmin Choe](http://rcv.kaist.ac.kr/gmchoe/)
+* [In So Kweon](http://rcv.kaist.ac.kr/)
 © 2017 Sunghoon Im, Korea Advanced Institute of Science and Technology (KAIST)
 
 IMPORTANT: If you use this software please cite the following in any resulting publication:
