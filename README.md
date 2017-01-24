@@ -52,4 +52,5 @@ IMPORTANT: If you use this software please cite the following in any resulting p
 ## References
 
 [1] Yang, Qingxiong. "Stereo matching using tree filtering." IEEE transactions on pattern analysis and machine intelligence 37.4 (2015): 834-846.
+
 [2] Yang, Qingxiong. "A non-local cost aggregation method for stereo matching." Computer Vision and Pattern Recognition (CVPR), 2012 IEEE Conference on. IEEE, 2012.
