@@ -6,26 +6,26 @@ S. Im, H. Ha, Francois Rameau, H.-G. Jeon, Gyeongmin Choe and I.S. Kweon, [All-a
 
 * [Project page](https://sites.google.com/site/shimrcv/imeccv16)
 
-# Dependency
+## Dependency
 * Opencv
 * Ceres
 
-# How to run
+## How to run
 * run main.m
 
-# Important Information
+## Important Information
 
 Frame selection
 
-The current implementation uses only the first 30 frames of your video clip. If you want to try with a different number of images or different sampling rate, please modify the "LoadSmallMotionClip" function.
+The current implementation uses only the first 30 frames of your video clip. If you want to try with a different number of images or different sampling rate, please change 'sam_rate'.
 
 Dense matching step
 
-We implemented the function "DenseMatching" to receive a scale for image downsampling and the number of labels for your convenience in testing. (Default: 0.5 scale and 64 labels for quick tests, but please remind that 1.0 and 256 were used in the paper)
+We implemented the function "DenseMatching" to receive a scale for image downsampling and the number of labels for your convenience in testing. (Default: 0.5 scale and 64 labels for quick tests, you can change them ('scaling, 'num_label')
 
 For the depth refinement, we utilized a tree-based depth upsampling approach [1,2].
 
-# Authors
+## Authors
 
 Sunghoon Im
 Hyowon Ha
@@ -46,7 +46,7 @@ IMPORTANT: If you use this software please cite the following in any resulting p
   organization={Springer}
 }
 
-References
+## References
 
 Yang, Qingxiong. "Stereo matching using tree filtering." IEEE transactions on pattern analysis and machine intelligence 37.4 (2015): 834-846.
 Yang, Qingxiong. "A non-local cost aggregation method for stereo matching." Computer Vision and Pattern Recognition (CVPR), 2012 IEEE Conference on. IEEE, 2012.
