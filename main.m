@@ -7,7 +7,7 @@
 %  Copyright @ 2017 Sunghoon Im. All rights reserved.
 %
 
-clc; clear all; close all;
+clc; clear; close all;
 
 addpath('harris');
 setting.dataset_root='Ricoh_db'; % Dataset root
