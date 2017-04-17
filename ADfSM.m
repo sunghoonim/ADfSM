@@ -282,8 +282,10 @@ classdef ADfSM < handle
             max_depth=max(depths)*2;
 
             % initialize dense matching
-            kvecL=[KL(1,1),KL(2,2),KL(1,2),KL(1,3),KL(2,3)]*this.scaling;
-            kvecR=[KR(1,1),KR(2,2),KR(1,2),KR(1,3),KR(2,3)]*this.scaling;
+            KL(1:2,:) = KL(1:2,:)*this.scaling;
+            KR(1:2,:) = KR(1:2,:)*this.scaling;
+            kvecL=[KL(1,1),KL(2,2),KL(1,2),KL(1,3),KL(2,3)];
+            kvecR=[KR(1,1),KR(2,2),KR(1,2),KR(1,3),KR(2,3)];
             RTLvec=reshape(RTL(1:3,:,:),[12,num_img]);
             RTRvec=reshape(RTR(1:3,:,:),[12,num_img]);
 
@@ -356,8 +358,57 @@ classdef ADfSM < handle
             imwrite(uint8(labelLR_tree*255/this.num_label),fullfile(this.dataset_root,this.dataset_name, 'depth_LR_tree.bmp'));
             
             depthLR=w0+dw*labelLR_tree;
-            save(fullfile(this.dataset_root,this.dataset_name,'Depth.mat'),'depthLR');
+            wL = 1./depthLR(:,1:COL);
+            wR = 1./depthLR(:,COL+1:end);
             
+            rth = 230;
+            [u,v]=meshgrid(1:COL,1:ROW);
+            u=u(:); v=v(:); 
+            rL=sqrt((u-KL(1,3)).^2 + (v-KL(2,3)).^2);
+            rR=sqrt((u-KR(1,3)).^2 + (v-KR(2,3)).^2);
+            maskL=reshape(rL>rth,[ROW,COL]);
+            maskR=reshape(rR>rth,[ROW,COL]);
+            
+            save(fullfile(this.dataset_root,this.dataset_name,'SS360.mat'),'IrefL','IrefR','KL','KR','RTLR','RTRL','xiL','xiR','maskL','maskR','wL','wR');
+            
+        end
+        
+        function Sphericaldepth(this)
+            load(fullfile(this.dataset_root,this.dataset_name,'SS360.mat'));
+          
+            %% Get 3D points
+                % get the 3D left
+            [ROWL,COLL,~]=size(IrefL);
+            [xL, yL] = meshgrid(1:COLL,1:ROWL);
+            xL(maskL==1) = KL(1,3);
+            yL(maskL==1) = KL(2,3);
+
+            XYZL = Im2Sph(xL,yL,KL,eye(3),xiL); 
+            Pts3DL = XYZL./repmat(wL(:),[1,3]); Pts3DL(:,4) = 1;
+
+                % get the 3D right
+            [ROWR,COLR,~]=size(IrefR);
+            [xR, yR] = meshgrid(1:COLR,1:ROWR);
+            xR(maskR==1) = KR(1,3);
+            yR(maskR==1) = KR(2,3);
+
+            XYZR = Im2Sph(xR,yR,KR,RTLR(1:3,1:3),xiR); 
+            Pts3DR = XYZR./repmat(wR(:),[1,3]); Pts3DR(:,4) = 1;
+            
+            %% Create stereo panorama
+                % depth
+            Rs = getRotationMat(0,270,0); Ts = [0 0 0]';
+            wLL = repmat(1./wL,[1,1,3]); wRR = repmat(1./wR,[1,1,3]);
+            DTL = SyntheticPano(wLL,wRR,Pts3DL,Pts3DR,1920,Rs,Ts);
+            DTL2 = DTL/max(DTL(:));
+            
+                % image
+            Rs = getRotationMat(0,270,0); Ts = [0 0 0]';
+            ImTL = SyntheticPano(IrefL,IrefR,Pts3DL,Pts3DR,1920,Rs,Ts);
+            imwrite(ImTL,fullfile(this.dataset_root,this.dataset_name, 'panoimg.bmp'));
+            imwrite(DTL2,fullfile(this.dataset_root,this.dataset_name, 'panodepth.bmp'));
+            
+            save(fullfile(this.dataset_root,this.dataset_name,'Synpano.mat'),'DTL','ImTL');
         end
     end
 end
@@ -399,6 +450,116 @@ function F=fn_reprojectionerror360(tf1, rt, tf2, X, x)
         xi=x(:,:,i);
         F(:,:,i)= X4-xi;
     end
+end
+function XYZ= Im2Sph(x,y,K,R,xi)
+
+    %frame conversion
+    x_t = (x-K(1,3))/K(1,1);
+    y_t = (y-K(2,3))/K(2,2);
+
+    %Projection to the sphere
+    z=x_t.^2+y_t.^2;
+
+    im2s = (xi + sqrt(1+(1-xi.*xi).*z))./(z+1);
+    Xs = im2s.*x_t;
+    Ys = im2s.*y_t;
+    Zs = im2s-xi;
+    % 
+    % Zs=((-2*xi*z)+sqrt((2*xi*z).^2-4*(z+1).*(xi^2*z-1)))./(2*(z+1));
+    % Xs=x_t.*(Zs+xi);
+    % Ys=y_t.*(Zs+xi);
+
+    %Rotation
+    XYZ=[Xs(:) Ys(:) Zs(:)]*R;
+    XYZ = real(XYZ);
+end
+
+function ImT = SyntheticPano(IrefL,IrefR,Pts3DL,Pts3DR,COLpano,Rs,Ts)
+
+    M1 = [Rs Ts; 0 0 0 1];
+
+    [ROW, COL, CH]=size(IrefL);
+    % full point cloud
+    colorL = reshape(im2double(IrefL), [ROW*COL,3]);
+    colorR = reshape(im2double(IrefR), [ROW*COL,3]);
+    color = [colorL; colorR];
+
+    Pts3D = [Pts3DL; Pts3DR];
+    % project on the sphere
+    PT1 = M1*Pts3D';
+    norm1 = sqrt(sum(PT1(1:3,:).^2));
+    in=(norm1>eps);
+    XYZ = PT1(1:3,:)./repmat(norm1,[3,1]);
+
+    ROWpano = COLpano/2;
+    [the, phi, ~]=cart2sph(XYZ(1,:),XYZ(2,:),XYZ(3,:));
+    the = (the+pi)/(2*pi); phi = (phi+pi/2)/(pi);
+    coorpano = round([the*(COLpano-1)+1; phi*(ROWpano-1)+1]);
+
+    [cc, rr] = meshgrid(1:COLpano, 1:ROWpano);
+
+    ImT = zeros(ROWpano, COLpano, CH);
+    for ch = 1:CH
+        imt = griddata(coorpano(1,in),coorpano(2,in), color(in,ch)', cc(:), rr(:), 'cubic');
+        ImT(:,:,ch) = reshape(imt, [ROWpano, COLpano]);
+    end
+end
+
+function DisplaySphere(ImFL, ImFR, KL, KR, xiL, xiR, RL, RR, maskL, maskR)
+
+    % Display sphere 1
+    [ROWL,COLL,~]=size(ImFL);
+    [x1, y1] = meshgrid(1:COLL, 1:ROWL);
+    x1(maskL==1) = KL(1,3);
+    y1(maskL==1) = KL(2,3);
+
+    XYZL = Im2Sph(x1,y1,KL,RL,xiL);
+    XsfL = reshape(XYZL(:,1),[ROWL,COLL]); YsfL = reshape(XYZL(:,2),[ROWL,COLL]); ZsfL = reshape(XYZL(:,3),[ROWL,COLL]);
+
+    % Display sphere 2
+    [ROWR,COLR,~]=size(ImFR);
+    [x2, y2] = meshgrid(1:COLR, 1:ROWR);
+    x2(maskR==1) = KR(1,3);
+    y2(maskR==1) = KR(2,3);
+
+    XYZR = Im2Sph(x2,y2,KR,RR,xiR);
+    XsfR = reshape(XYZR(:,1),[ROWR,COLR]); YsfR = reshape(XYZR(:,2),[ROWR,COLR]); ZsfR = reshape(XYZR(:,3),[ROWR,COLR]);
+
+
+
+    % Sphere display configuration
+    k = 1; n = 2^k-1; %Face on the sphere
+    [x,y,z] = sphere(n); c = linspace(-2,-2,n); c=repmat(c,n,1); %Generation of the sphere
+
+    figure; hold on;
+    surf(XsfL,YsfL,ZsfL,mat2gray(ImFL));
+    surf(XsfR,YsfR,ZsfR,mat2gray(ImFR));
+    shading interp;
+    surface(x,y,z,'EdgeColor','none','FaceColor',[0.8 0.8 0.8])  % display sphere
+    axis equal;
+    hold off;
+end
+
+function [rot_mat] = getRotationMat(roll,pitch,yaw)
+
+    %roll, pitch, yaw expressed in degree
+    % x, y, z
+
+    Rp=[cos(deg2rad(pitch)) 0 sin(deg2rad(pitch));...
+        0 1 0;...
+        -sin(deg2rad(pitch)) 0 cos(deg2rad(pitch))]; %Rot_y
+
+    Ry=[cos(deg2rad(yaw)) -sin(deg2rad(yaw)) 0;...
+        sin(deg2rad(yaw)) cos(deg2rad(yaw)) 0;...
+        0 0 1]; %Rot_z
+
+    Rr=[1 0 0;...
+        0 cos(deg2rad(roll)) -sin(deg2rad(roll));...
+        0 sin(deg2rad(roll)) cos(deg2rad(roll))]; %Rot_x
+
+    rot_mat = Ry*Rp*Rr;
+    % rot_mat = Rr*Rp*Ry;
+
 end
 
 function fn_saveply(filename, X)

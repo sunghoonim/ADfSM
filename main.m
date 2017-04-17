@@ -23,4 +23,5 @@ for i=1:length(flist)
     A = ADfSM(setting);
     A.SMBA360();
     A.SphereSweep360();
+    A.Sphericaldepth();
 end
