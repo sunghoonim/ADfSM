@@ -12,7 +12,6 @@ _S. Im, H. Ha, F. Rameau, H.-G. Jeon, G. Choe and I.S. Kweon_, [**All-around Dep
 - [**Ceres solver**](http://ceres-solver.org)
 
 ## How to run
-* Download opencv and put "opencv_world310.dll" file on the parent folder
 * run main.m
 
 
